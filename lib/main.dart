@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -21,7 +21,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   openPage({String url = "https://one.walmart.com/"}) async {
-    await FlutterWebBrowser.openWebPage(url: url);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Widget button({String text, Function onTap}) {
